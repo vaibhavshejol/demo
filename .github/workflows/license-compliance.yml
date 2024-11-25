@@ -6,6 +6,12 @@ on:
   workflow_dispatch:
   workflow_call:
 
+
+permissions:
+  contents: read
+  issues: read
+  checks: write
+
 jobs:
   license-finder:
   # Using https://github.com/pivotal/LicenseFinder
