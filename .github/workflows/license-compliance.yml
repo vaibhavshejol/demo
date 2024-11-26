@@ -1,4 +1,4 @@
-name: 30 License Compliance
+name: License Compliance Verification
 
 on:
   push:
@@ -13,8 +13,7 @@ permissions:
   checks: write
 
 jobs:
-  license-finder:
-  # Using https://github.com/pivotal/LicenseFinder
+  license-compliance-verification:
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout Repository'
@@ -35,9 +34,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v2.2.0
         if: always()
         with:
-          github_token: ${{ secrets.GH_PAT }}
           junit_files: "license_finder_report.xml"
-          check_name: "License Compliance Check"
 
       - name: 'Upload Dependency Review Report'
         if: always()
