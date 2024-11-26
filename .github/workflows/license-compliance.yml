@@ -3,9 +3,6 @@ name: License Compliance Verification
 on:
   push:
     branches: [ "main" ]
-  workflow_dispatch:
-  workflow_call:
-
 
 permissions:
   contents: read
@@ -16,13 +13,16 @@ jobs:
   license-compliance-verification:
     runs-on: ubuntu-latest
     steps:
+      # Checkout Repository
       - name: 'Checkout Repository'
         uses: actions/checkout@v4
 
+      # Removing Maven Wrapper Script
       - name: 'License Finder fix with mvnw'
         run: rm mvnw
 
-      - name: 'License Finder'
+      # Run License Finder
+      - name: 'Run License Finder'
         uses: jmservera/license-finder-action@main
         with:
           permitted-licenses: MIT,Apache-2.0
@@ -30,13 +30,15 @@ jobs:
                                  hamcrest,hamcrest-core,hamcrest-library
                                  junit-jupiter,junit-jupiter-api,junit-jupiter-engine,javax.annotation-api
       
+      # Publish Report to GitHub UI
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2.2.0
         if: always()
         with:
           junit_files: "license_finder_report.xml"
 
-      - name: 'Upload Dependency Review Report'
+      # Upload Report In Artifact
+      - name: 'Upload Dependency Review Report In Artifact'
         if: always()
         uses: actions/upload-artifact@v4
         with:
